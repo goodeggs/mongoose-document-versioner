@@ -10,7 +10,7 @@ hopefully help prevent version overwrite errors when you use `save()` calls.
 const documentVersioner = require('mongoose-document-versioner');
 
 const schema = new mongoose.Schema({ /* .... */ });
-documentVersioner(schema);
+schema.plugin(documentVersioner);
 const Model = mongoose.model('Model', schema);
 
 /* EXAMPLES */

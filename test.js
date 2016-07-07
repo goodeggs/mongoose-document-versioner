@@ -12,7 +12,7 @@ const schema = new mongoose.Schema({
   name: String,
   class: String,
 });
-documentVersioner(schema);
+schema.plugin(documentVersioner);
 
 const Spaceship = mongoose.model('Spaceship', schema);
 
