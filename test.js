@@ -23,27 +23,44 @@ describe('Mongoose document versioner', function () {
 
   it('bumps the version of a document with an update query', function () {
     return Spaceship.create({name: 'USS Voyager'})
-    .then(function (enterprise) {
-      expect(enterprise).to.have.property('__v', 0);
+    .then(function (spaceship) {
+      expect(spaceship).to.have.property('__v', 0);
       return Spaceship.update({name: 'USS Voyager'}, {class: 'Intrepid'})
-      .then(() => Spaceship.findOne({_id: enterprise.id}));
+      .then(() => Spaceship.findOne({_id: spaceship.id}));
     })
-    .then(function (enterprise) {
-      expect(enterprise).to.have.property('__v', 1);
+    .then(function (spaceship) {
+      expect(spaceship).to.have.property('__v', 1);
+    });
+  });
+
+  it('understands update with upsert', function () {
+    return Spaceship.update({name: 'USS Thomas Paine'}, {class: 'New Orleans'}, {upsert: true})
+    .then(function () {
+      return Spaceship.findOne({name: 'USS Thomas Paine'});
+    })
+    .then(function (spaceship) {
+      expect(spaceship).to.have.property('__v', 1);
     });
   });
 
   it('bumps the version of a document with a findOneAndUpdate query', function () {
     return Spaceship.create({name: 'USS Enterprise D'})
-    .then(function (enterprise) {
-      expect(enterprise).to.have.property('__v', 0);
+    .then(function (spaceship) {
+      expect(spaceship).to.have.property('__v', 0);
       return Spaceship.findOneAndUpdate({name: 'USS Enterprise D'}, {class: 'Ambassador'});
     })
-    .then(function (enterprise) {
-      return Spaceship.findOne({_id: enterprise.id});
+    .then(function (spaceship) {
+      return Spaceship.findOne({_id: spaceship.id});
     })
-    .then(function (enterprise) {
-      expect(enterprise).to.have.property('__v', 1);
+    .then(function (spaceship) {
+      expect(spaceship).to.have.property('__v', 1);
+    });
+  });
+
+  it('understands findOneAndUpdate with upsert', function () {
+    return Spaceship.findOneAndUpdate({name: 'USS Carolina'}, {class: 'Daedalus'}, {upsert: true, new: true})
+    .then(function (spaceship) {
+      expect(spaceship).to.have.property('__v', 1);
     });
   });
 });
