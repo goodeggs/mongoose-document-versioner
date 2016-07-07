@@ -43,5 +43,9 @@
     "rules": {
       "prefer-reflect": 0
     }
+  },
+  "publishConfig": {
+    "registry": "https://npmjs.org"
   }
+
 }
