@@ -1,0 +1,44 @@
+{
+  "name": "mongoose-document-versioner",
+  "version": "1.0.0",
+  "description": "Force version to increment every time you update a mongoose document",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run lint && npm run test:mocha --",
+    "lint": "eslint *.js --ignore-path .gitignore",
+    "test:mocha": "NODE_ENV=test mocha test.js",
+    "test:watch": "npm run test -- --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/goodeggs/mongoose-document-versioner.git"
+  },
+  "keywords": [],
+  "author": "Good Eggs Inc.",
+  "contributors": [
+    "Max Edmands <max@goodeggs.com>"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/goodeggs/mongoose-document-versioner/issues"
+  },
+  "homepage": "https://github.com/goodeggs/mongoose-document-versioner#readme",
+  "devDependencies": {
+    "eslint": "^3.0.1",
+    "eslint-plugin-goodeggs": "^2.0.0",
+    "goodeggs-ops-api-test-helpers": "^9.2.1",
+    "mocha": "^2.5.3",
+    "mongoose": "^4.5.3"
+  },
+  "eslintConfig": {
+    "plugins": [
+      "goodeggs"
+    ],
+    "extends": [
+      "plugin:goodeggs/goodeggs"
+    ],
+    "env": {
+      "node": true
+    }
+  }
+}
