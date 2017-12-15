@@ -1,16 +1,25 @@
 # Mongoose Document Versioner
 
-This module forces all your `Model.update()` and `Model.findOneAndUpdate()`
-calls to `$inc` the `__v` value of the documents they touch, which will
-hopefully help prevent version overwrite errors when you use `save()` calls.
+This module forces the version key to increment any time you save or update
+a document. This is useful for detecting version conflicts.
+
+Increments the document version on the following `pre` hooks:
+
+* findOneAndUpdate
+* updateOne
+* updateMany
+* update
+* save
+
+Note: Model.findByIdAndUpdate() calls the findOneAndUpdate hook.
 
 ## Usage
 
 ```js
-const documentVersioner = require('mongoose-document-versioner');
+const versionerPlugin = require('mongoose-document-versioner');
 
 const schema = new mongoose.Schema({ /* .... */ });
-schema.plugin(documentVersioner);
+schema.plugin(versionerPlugin);
 const Model = mongoose.model('Model', schema);
 
 /* EXAMPLES */
