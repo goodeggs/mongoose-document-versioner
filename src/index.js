@@ -1,26 +1,24 @@
 const set = require('lodash.set');
 
-function incrementVersionOnSave (next) {
-  this.increment();
-  next();
-}
-
-function incrementVersionOnUpdate (next) {
-  const versionKey = this.schema.options.versionKey || '__v';
-
-  set(this, '_update.$inc.' + versionKey, 1);
-
-  if (this._update.$setOnInsert) {
-    delete this._update.$setOnInsert[versionKey];
-    if (Object.keys(this._update.$setOnInsert).length === 0) {
-      delete this._update.$setOnInsert;
-    }
-  }
-  
-  next();
-}
-
 module.exports = function (schema) {
+  function incrementVersionOnSave (next) {
+    this.version++;
+    next();
+  }
+
+  function incrementVersionOnUpdate (next) {
+    set(this, '_update.$inc.version', 1);
+    next();
+  }
+
+  schema.add({
+    version: {
+      type: Number,
+      required: true,
+      default: 0
+    }
+  });
+
   schema.pre('save', incrementVersionOnSave);
   schema.pre('findOneAndUpdate', incrementVersionOnUpdate);
   schema.pre('updateOne', incrementVersionOnUpdate);

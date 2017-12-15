@@ -1,17 +1,18 @@
 # Mongoose Document Versioner
 
-This module forces the version key to increment any time you save or update
-a document. This is useful for detecting version conflicts.
+This module sets a document `version` key that is incremented
+any time you save or update a document. This is useful for
+detecting version conflicts.
 
-Increments the document version on the following `pre` hooks:
+Increments `version` on the following `pre` hooks:
 
-* findOneAndUpdate
-* updateOne
-* updateMany
-* update
-* save
+* `findOneAndUpdate`
+* `updateOne`
+* `updateMany`
+* `update`
+* `save`
 
-Note: Model.findByIdAndUpdate() calls the findOneAndUpdate hook.
+Note: `Model.findByIdAndUpdate()` calls the `findOneAndUpdate` hook.
 
 ## Usage
 
@@ -29,7 +30,7 @@ Model.update({attr: 'foo'}, {attr: 'bar'}, {multi: true});
  * mongo query:
  * model.update(
  *   { attr: 'foo' },
- *   { '$inc': { __v: 1 }, '$set': { attr: 'bar' } },
+ *   { '$inc': { version: 1 }, '$set': { attr: 'bar' } },
  *   { multi: true }
  * )
  */
@@ -39,7 +40,7 @@ Model.findOneAndUpdate({attr: 'foo'}, {attr: 'bar'});
  * mongo query:
  * model.findAndModify(
  *   { attr: 'foo' },
- *   { '$inc': { __v: 1 }, '$set': { attr: 'bar' } },
+ *   { '$inc': { version: 1 }, '$set': { attr: 'bar' } },
  *   { new: false, upsert: false }
  * )
  */
