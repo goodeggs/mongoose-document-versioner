@@ -1,6 +1,6 @@
 {
   "name": "mongoose-document-versioner",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "Force version to increment every time you update or save a mongoose document",
   "main": "src/",
   "scripts": {
