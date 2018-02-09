@@ -46,11 +46,25 @@ describe('Mongoose document versioner', function () {
       });
   });
 
-  it('does not bump the version of a document in an updateOne query when the version is already set in the query', function () {
+  it('correctly handles updateOne when the version is set in the query', function () {
     return Starship.create({name: 'USS Geronimo'})
       .then(function (ship) {
         assert.equal(ship.version, 1);
         return Starship.updateOne({name: 'USS Geronimo'}, {version: 3})
+          .then(function () {
+            return Starship.findById(ship.id);
+          });
+      })
+      .then(function (ship) {
+        assert.equal(ship.version, 3);
+      });
+  });
+
+  it('correctly handles findOneAndUpdate when the version is set in the query', function () {
+    return Starship.create({name: 'USS Geronimo'})
+      .then(function (ship) {
+        assert.equal(ship.version, 1);
+        return Starship.findOneAndUpdate({name: 'USS Geronimo'}, {version: 3}, {new: true})
           .then(function () {
             return Starship.findById(ship.id);
           });
