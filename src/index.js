@@ -1,4 +1,5 @@
 const set = require('lodash.set');
+const has = require('lodash.has');
 
 module.exports = function (schema) {
   function incrementVersionOnSave (next) {
@@ -7,7 +8,13 @@ module.exports = function (schema) {
   }
 
   function incrementVersionOnUpdate (next) {
-    set(this, '_update.$inc.version', 1);
+    if (
+      !has(this, '_update.$inc.version') && 
+      !has(this, '_update.$set.version') && 
+      !has(this, '_update.$setOnInsert.version')
+    ) {
+      set(this, '_update.$inc.version', 1);
+    }
     next();
   }
 

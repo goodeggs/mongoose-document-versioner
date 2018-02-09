@@ -37,6 +37,7 @@
     "mongoose": "^4.5.3"
   },
   "dependencies": {
+    "lodash.has": "^4.5.2",
     "lodash.set": "^4.3.2"
   }
 }
